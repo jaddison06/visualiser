@@ -1,7 +1,5 @@
 name: Package
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on:
   push:
     branches: [ master ]
@@ -13,9 +11,16 @@ on:
     runs-on: ubuntu-latest
 
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
     - name: Package for Windows
       run: |
+        export $DIST-DIR=dist/dist-win
+        export $EXTRA-DIR=dist/extras/dist-win
         
+        rm -rf $DIST-DIR
+        mkdir $DIST-DIR
+        cp template.blend $DIST-DIR/template.blend
+        cp template.blend1 $DIST-DIR/template.blend1
+        cp template.esf $DIST-DIR/template.esf
+        cp main.py $DIST-DIR/main.py
