@@ -523,7 +523,7 @@ def generate_fixture(name, addr, blender_base):
     fixture_info_formatted['maxwatts'] = fixture_info_formatted['maxwatts']*INTENSITY_COEFFICIENT
 
 
-        #fixture_info_formatted['colour_mode'] = 'rgb'
+    #fixture_info_formatted['colour_mode'] = 'rgb'
 
     print(fixture_info_formatted)
 
@@ -554,7 +554,13 @@ receiver.start()
 
 # insert keyframes for all fixtures in a uni
 def insert_keyframes(uni, frame_no):
-
+    # iterate over fixtures in the uni
+    for fixture in fixtures[uni]:
+        bpy.data.objects[fixture.data['blender_names']['arms']].keyframe_insert(data_path='LocRotScale', frame=frame_no)
+        bpy.data.objects[fixture.data['blender_names']['head']].keyframe_insert(data_path='LocRotScale', frame=frame_no)
+        bpy.data.lights[fixture.data['blender_names']['lamp']].keyframe_insert(data_path='color', frame=frame_no)
+        bpy.data.lights[fixture.data['blender_names']['lamp']].keyframe_insert(data_path='energy', frame=frame_no)
+        bpy.data.lights[fixture.data['blender_names']['lamp']].keyframe_insert(data_path='spot_size', frame=frame_no)
 
 # callback for a packet. cause we don't know how many dmx unis
 # we might have, we don't get to use decorators so we need
@@ -599,6 +605,13 @@ def get_fixtures():
     recording = record_mode
     universes = universe_count
     db_path = patch_path
+
+    # if we're recording, delete all keyframes before we even start
+    if recording:
+        print('resetting keyframe data')
+        # this doesn't work so we pretend it doesn't exist
+        #for obj in bpy.data.objects:
+            #object.animation_data_clear()
 
     cwd = os.getcwd()
     full_db_path = cwd+'/./'+db_path
