@@ -16,7 +16,7 @@ jobs:
         export EXTRA_DIR=dist/extras/dist-win
 
         rm -rf $DIST_DIR
-        mkdir $DIST_DIR
+        mkdir -p $DIST_DIR
         cp template.blend $DIST_DIR/template.blend
         cp template.blend1 $DIST_DIR/template.blend1
         cp template.esf $DIST_DIR/template.esf
