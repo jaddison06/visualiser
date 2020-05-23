@@ -7,13 +7,10 @@ on:
     branches: [ master ]
 
 jobs:
-  package:
+  package-win:
     runs-on: ubuntu-latest
-
+    name: package for Windows
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Package for Windows
     - run: |
         export $DIST-DIR=dist/dist-win
         export $EXTRA-DIR=dist/extras/dist-win
