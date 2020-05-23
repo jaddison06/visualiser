@@ -435,7 +435,7 @@ def get_target_object(parent, starts_with):
 #   - Arms must be a direct child of the base
 #   - Head must be a direct child of the arms
 #   - Lamp must be a direct child of the head
-
+#
 # shit is pretty self explanatory though tbh
 
 def get_blender_names(base):
@@ -447,13 +447,16 @@ def get_blender_names(base):
     return {'arms': arms_obj.name, 'lamp': lamp_obj.name, 'head': head_obj.name}
 
 
+# if the boolkey in the source is true, set the target's
+# copykey to the source's copykey
 def set_conditional(boolkey, copykey, source, target):
     if source[boolkey]:
         target[copykey] = source[copykey]
 
-# generate a fixture from our (basic) fixture library
+
+# generate a Fixture from our (basic) fixture library
 def generate_fixture(name, addr, blender_base):
-    # modify this if you've made a huge or tiny model and you want
+    # modify this if you've made a huge or tiny scene and you want
     # everything brighter/dimmer
     INTENSITY_COEFFICIENT = 10
 
@@ -549,8 +552,8 @@ receiver.start()
 # bitch
 
 # callback for a packet. cause we don't know how many dmx unis
-# we have, we don't get to use decorators so we need a function
-# that does all the shit
+# we might have, we don't get to use decorators so we need
+# a function that does all the shit
 def packetCallback(packet):
     print('received packet on uni '+str(packet.universe)+'!')
     print(packet.dmxData)
