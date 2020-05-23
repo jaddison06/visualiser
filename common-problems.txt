@@ -1,0 +1,8 @@
+etcnomad defaults to wrong adapter.
+solution: fucking kill them all
+
+etcnomad doesn't output sacn
+solution: open etcnomad w/ viz, then navigate and open showfile
+
+ImportError when running script
+solution: use the fucking sacn module like i told you to
