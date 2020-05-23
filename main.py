@@ -388,7 +388,7 @@ def test(test_light):
 
 #test()
 
-# get a db
+# get a db table
 def get_db(path, table):
     conn = sqlite3.connect(path)
     curs = conn.cursor()
@@ -523,7 +523,7 @@ def generate_fixture(name, addr, blender_base):
     fixture_info_formatted['maxwatts'] = fixture_info_formatted['maxwatts']*INTENSITY_COEFFICIENT
 
 
-    #fixture_info_formatted['colour_mode'] = 'rgb'
+        #fixture_info_formatted['colour_mode'] = 'rgb'bpy.context.active_object.animation_data_clear()
 
     print(fixture_info_formatted)
 
@@ -552,15 +552,29 @@ receiver.start()
 # bitch
 
 
+# TODO FOR RECORDING:
+#   - Current keyframe always calculated to be 0
+#   - Keyframes aren't being recorded.
+
+# insert locrotscale keyframes for an object
+def insert_locrotscale(obj, frame):
+    obj.keyframe_insert(data_path="location", frame=frame)
+    obj.keyframe_insert(data_path="rotation_euler", frame=frame)
+    obj.keyframe_insert(data_path="scale", frame=frame)
+
+# insert color, energy, spot_size keyframes for a SpotLight
+def insert_lightdata(light, frame):
+    light.keyframe_insert(data_path='color', frame=frame)
+    light.keyframe_insert(data_path='energy', frame=frame)
+    light.keyframe_insert(data_path='spot_size', frame=frame)
+
 # insert keyframes for all fixtures in a uni
 def insert_keyframes(uni, frame_no):
     # iterate over fixtures in the uni
     for fixture in fixtures[uni]:
-        bpy.data.objects[fixture.data['blender_names']['arms']].keyframe_insert(data_path='LocRotScale', frame=frame_no)
-        bpy.data.objects[fixture.data['blender_names']['head']].keyframe_insert(data_path='LocRotScale', frame=frame_no)
-        bpy.data.lights[fixture.data['blender_names']['lamp']].keyframe_insert(data_path='color', frame=frame_no)
-        bpy.data.lights[fixture.data['blender_names']['lamp']].keyframe_insert(data_path='energy', frame=frame_no)
-        bpy.data.lights[fixture.data['blender_names']['lamp']].keyframe_insert(data_path='spot_size', frame=frame_no)
+        insert_locrotscale(bpy.data.objects[fixture.data['blender_names']['arms']], frame_no)
+        insert_locrotscale(bpy.data.objects[fixture.data['blender_names']['head']], frame_no)
+        insert_lightdata(bpy.data.objects[fixture.data['blender_names']['lamp']].data, frame_no)
 
 # callback for a packet. cause we don't know how many dmx unis
 # we might have, we don't get to use decorators so we need
@@ -570,7 +584,7 @@ def packetCallback(packet):
     print(packet.dmxData)
     for fix in fixtures[packet.universe]:
         fix.parse_dmx(packet)
-    
+
     if recording:
         print('recording packet')
         fps=24
@@ -578,8 +592,9 @@ def packetCallback(packet):
         # frames since we started.
 
         current_time = time.time()
+        print((current_time - start_time) % (1/fps))
         if (current_time - start_time) % (1/fps) < 1:
-            frame_no = ((current_time - start_time) % (1/fps)).round()
+            frame_no = round((current_time - start_time) % (1/fps))
             print('Inserting new keyframe @ '+str(frame_no))
             insert_keyframes(packet.universe, frame_no)
 
@@ -596,6 +611,7 @@ recording = False
 def get_fixtures():
     print('reading patch database')
     global fixtures
+    global recording
 
     # these three should come in from the Blender script
     global universe_count
@@ -609,7 +625,6 @@ def get_fixtures():
     # if we're recording, delete all keyframes before we even start
     if recording:
         print('resetting keyframe data')
-        # this doesn't work so we pretend it doesn't exist
         #for obj in bpy.data.objects:
             #object.animation_data_clear()
 
