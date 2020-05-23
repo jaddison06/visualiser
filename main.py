@@ -551,6 +551,11 @@ atexit.register(quit)
 receiver.start()
 # bitch
 
+
+# insert keyframes for all fixtures in a uni
+def insert_keyframes(uni, frame_no):
+
+
 # callback for a packet. cause we don't know how many dmx unis
 # we might have, we don't get to use decorators so we need
 # a function that does all the shit
@@ -559,7 +564,23 @@ def packetCallback(packet):
     print(packet.dmxData)
     for fix in fixtures[packet.universe]:
         fix.parse_dmx(packet)
+    
+    if recording:
+        print('recording packet')
+        fps=24
+        # check if it's been a whole-ish number of
+        # frames since we started.
 
+        current_time = time.time()
+        if (current_time - start_time) % (1/fps) < 1:
+            frame_no = ((current_time - start_time) % (1/fps)).round()
+            print('Inserting new keyframe @ '+str(frame_no))
+            insert_keyframes(packet.universe, frame_no)
+
+
+
+
+recording = False
 
 # THIS IS WHERE YOU DO STUFF. PLEASE, DO STUFF NOWHERE ELSE.
 # update: we now use patch.db so please do not do stuff here
@@ -570,10 +591,12 @@ def get_fixtures():
     print('reading patch database')
     global fixtures
 
-    # these two should come in from the Blender script
+    # these three should come in from the Blender script
     global universe_count
     global patch_path
+    global record_mode
 
+    recording = record_mode
     universes = universe_count
     db_path = patch_path
 
@@ -632,6 +655,7 @@ def callback1(packet):
 
 
 get_fixtures()
+start_time = time.time()
 #print(get_db('
 
 # cause of threading and stuff this doesn't get blocked
