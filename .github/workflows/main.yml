@@ -16,16 +16,15 @@ jobs:
       
       - name: Create package
         run: |
-          export DIST_DIR=dist/dist-win
-          export EXTRA_DIR=dist/extras/dist-win
+          export DIST_DIR=./dist/dist-win
+          export EXTRA_DIR=./dist/extras/dist-win
   
           rm -rf $DIST_DIR
           mkdir -p $DIST_DIR
-          ls
-          cp template.blend $DIST_DIR/template.blend
-          cp template.blend1 $DIST_DIR/template.blend1
-          cp template.esf $DIST_DIR/template.esf
-          cp main.py $DIST_DIR/main.py
+          cp ./template.blend $DIST_DIR/template.blend
+          cp ./template.blend1 $DIST_DIR/template.blend1
+          cp ./template.esf $DIST_DIR/template.esf
+          cp ./main.py $DIST_DIR/main.py
         
       - name: Zip package
         run: |
