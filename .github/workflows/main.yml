@@ -12,8 +12,8 @@ jobs:
     name: package for Windows
     steps:
     - run: |
-        export $DIST-DIR=dist/dist-win
-        export $EXTRA-DIR=dist/extras/dist-win
+        export DIST-DIR=dist/dist-win
+        export EXTRA-DIR=dist/extras/dist-win
 
         rm -rf $DIST-DIR
         mkdir $DIST-DIR
