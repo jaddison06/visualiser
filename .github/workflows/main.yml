@@ -1,4 +1,4 @@
-name: Package
+name: CI
 
 on:
   push:
@@ -6,18 +6,18 @@ on:
   pull_request:
     branches: [ master ]
 
- jobs:
+jobs:
   package:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
 
-      name: Package for Windows
-      run: |
+    - name: Package for Windows
+    - run: |
         export $DIST-DIR=dist/dist-win
         export $EXTRA-DIR=dist/extras/dist-win
-        
+
         rm -rf $DIST-DIR
         mkdir $DIST-DIR
         cp template.blend $DIST-DIR/template.blend
