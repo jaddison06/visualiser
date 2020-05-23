@@ -12,12 +12,12 @@ jobs:
     name: package for Windows
     steps:
     - run: |
-        export DIST-DIR=dist/dist-win
-        export EXTRA-DIR=dist/extras/dist-win
+        export DIST_DIR=dist/dist-win
+        export EXTRA_DIR=dist/extras/dist-win
 
-        rm -rf $DIST-DIR
-        mkdir $DIST-DIR
-        cp template.blend $DIST-DIR/template.blend
-        cp template.blend1 $DIST-DIR/template.blend1
-        cp template.esf $DIST-DIR/template.esf
-        cp main.py $DIST-DIR/main.py
+        rm -rf $DIST_DIR
+        mkdir $DIST_DIR
+        cp template.blend $DIST_DIR/template.blend
+        cp template.blend1 $DIST_DIR/template.blend1
+        cp template.esf $DIST_DIR/template.esf
+        cp main.py $DIST_DIR/main.py
