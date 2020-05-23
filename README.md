@@ -1,4 +1,3 @@
-![](https://github.com/jaddison06/visualiser/workflows/main/badge.svg?event=pull_request)
 # visualiser
 3d lighting visualiser made with Blender
 
