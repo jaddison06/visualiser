@@ -29,3 +29,49 @@ jobs:
       - name: Zip package
         run: |
           echo "zippy boi"
+          
+  package-mac:
+    runs-on: ubuntu-latest
+    name: package for Mac
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      
+      - name: Create package
+        run: |
+          export DIST_DIR=./dist/dist-mac
+          export EXTRA_DIR=./dist/extras/dist-mac
+  
+          rm -rf $DIST_DIR
+          mkdir -p $DIST_DIR
+          cp ./template.blend $DIST_DIR/template.blend
+          cp ./template.blend1 $DIST_DIR/template.blend1
+          cp ./template.esf $DIST_DIR/template.esf
+          cp ./main.py $DIST_DIR/main.py
+        
+      - name: Zip package
+        run: |
+          echo "zippy boi"
+          
+  package-linux:
+    runs-on: ubuntu-latest
+    name: package for Linux
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      
+      - name: Create package
+        run: |
+          export DIST_DIR=./dist/dist-linux
+          export EXTRA_DIR=./dist/extras/dist-linux
+  
+          rm -rf $DIST_DIR
+          mkdir -p $DIST_DIR
+          cp ./template.blend $DIST_DIR/template.blend
+          cp ./template.blend1 $DIST_DIR/template.blend1
+          cp ./template.esf $DIST_DIR/template.esf
+          cp ./main.py $DIST_DIR/main.py
+        
+      - name: Tar package
+        run: |
+          echo "tarry boi"
