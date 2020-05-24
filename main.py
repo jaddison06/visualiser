@@ -592,9 +592,10 @@ def packetCallback(packet):
         # frames since we started.
 
         current_time = time.time()
-        print((current_time - start_time) % (1/fps))
-        if (current_time - start_time) % (1/fps) < 1:
-            frame_no = round((current_time - start_time) % (1/fps))
+        diff = current_time-start_time
+        print(diff % (1/fps))
+        if diff % (1/fps) < 1:
+            frame_no = round(diff / (1/fps))
             print('Inserting new keyframe @ '+str(frame_no))
             insert_keyframes(packet.universe, frame_no)
 
