@@ -599,6 +599,8 @@ def packetCallback(packet):
             print('Inserting new keyframe @ '+str(frame_no))
             insert_keyframes(packet.universe, frame_no)
 
+# recording should work but i haven't actually had a chance to test it so fuck you
+# woohoo recording is a banger
 
 
 
@@ -626,8 +628,10 @@ def get_fixtures():
     # if we're recording, delete all keyframes before we even start
     if recording:
         print('resetting keyframe data')
-        #for obj in bpy.data.objects:
-            #object.animation_data_clear()
+        for obj in bpy.data.objects:
+            print(obj.name)
+            bpy.data.objects[obj.name].animation_data_clear()
+            #object.data.animation_data_clear()
 
     cwd = os.getcwd()
     full_db_path = cwd+'/./'+db_path
