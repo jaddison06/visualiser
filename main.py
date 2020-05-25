@@ -634,8 +634,8 @@ def get_fixtures():
         for obj in bpy.data.objects:
             # i have no fucking idea why we can't just call this on the object
             # also it would seem that this doesn't do some kind of thing on the objects' children
-            bpy.data.objects[obj.name].animation_data_clear()
-            
+            #bpy.data.objects[obj.name].animation_data_clear()
+            clear_anim_data(bpy.data.objects[obj.name])
 
     cwd = os.getcwd()
     full_db_path = cwd+'/./'+db_path
