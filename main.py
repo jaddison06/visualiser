@@ -603,6 +603,7 @@ def packetCallback(packet):
 # woohoo recording is a banger
 
 def clear_anim_data(obj):
+    print(obj.name)
     obj.animation_data_clear()
     for object in getChildren(obj):
         clear_anim_data(object)
