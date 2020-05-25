@@ -604,7 +604,11 @@ def packetCallback(packet):
 
 def clear_anim_data(obj):
     print(obj.name)
+    # idk why we have to do both but it works
+    # oh it's cause the lamps have to have their data cleared for some parameters
+    # but their data data cleared for stuff like zoom or whatever
     obj.animation_data_clear()
+    obj.data.animation_data_clear()
     for object in getChildren(obj):
         clear_anim_data(object)
 
