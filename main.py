@@ -602,7 +602,10 @@ def packetCallback(packet):
 # recording should work but i haven't actually had a chance to test it so fuck you
 # woohoo recording is a banger
 
-
+def clear_anim_data(obj):
+    obj.animation_data_clear()
+    for object in getChildren(obj):
+        clear_anim_data(object)
 
 recording = False
 
@@ -632,6 +635,7 @@ def get_fixtures():
             # i have no fucking idea why we can't just call this on the object
             # also it would seem that this doesn't do some kind of thing on the objects' children
             bpy.data.objects[obj.name].animation_data_clear()
+            
 
     cwd = os.getcwd()
     full_db_path = cwd+'/./'+db_path
